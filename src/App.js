@@ -37,12 +37,19 @@ class App extends React.Component {
     }
     submitServer(){
         $.ajax({
-            url: 'http://localhost:8080/api/payList/submit',
+            url: process.env.REACT_APP_BASE_URL+'/api/payList/submit',
             data: {
-
+                name: this.state.name,
+                username: this.state.username,
+                payListId: this.state.payMethod[this.state.chooseIndex].id,
+                amount: this.state.amount,
             },
             dataType: 'json',
             type: 'POST',
+            crossDomain:true, //设置跨域为true
+            xhrFields: {
+                withCredentials: true //默认情况下，标准的跨域请求是不会发送cookie的
+            },
             success: (res) => {
                 const { code, message, data } = res;
                 if (message !== undefined && message !== null){
@@ -56,7 +63,7 @@ class App extends React.Component {
                 if (url !== undefined && !url.isEmpty){
                     const winURL = window.open(url);
                     const loop = setInterval(() => {
-                        if (winURL && winURL .closed) {
+                        if (winURL && winURL.closed) {
                             clearInterval(loop);
                             this.onClickBnt();
                         }
@@ -74,10 +81,12 @@ class App extends React.Component {
     }
     loadFromServer() {
         $.ajax({
-            url: 'http://localhost:8080/api/payList/v1',
-            // data: {},
-            // dataType: 'json',
+            url: process.env.REACT_APP_BASE_URL+'/api/payList/v1',
             type: 'GET',
+            crossDomain:true, //设置跨域为true
+            xhrFields: {
+                withCredentials: true //默认情况下，标准的跨域请求是不会发送cookie的
+            },
             success: (res) => {
                 const { code, message, data } = res;
                 if (message !== undefined && message !== null){
@@ -196,6 +205,7 @@ class App extends React.Component {
     }
     onMaskSubmit(){
         this.setState({showMask: false});
+        this.submitServer();
     }
     render() {
         return (
@@ -326,7 +336,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className={this.state.showMask?app.mask:app.maskHide}>
+                <div className={this.state.showAjax?app.mask:app.maskHide}>
                     <div className={this.state.showAjax?app.popup:app.popupHide}>
                         <div className="title"> 温馨提示</div>
                         <div className="main">
