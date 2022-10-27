@@ -79,13 +79,18 @@ class App extends React.Component {
                 if (code!==200) return;
                 const { url } = data;
                 if (url !== undefined && !url.isEmpty){
-                    const winURL = window.open(url);
-                    const loop = setInterval(() => {
-                        if (winURL && winURL.closed) {
-                            clearInterval(loop);
-                            this.onClickBnt();
-                        }
-                    }, 500);
+                    var issafariBrowser = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+                    if (issafariBrowser){
+                        window.location.href = url;
+                    }else{
+                        const winURL = window.open(url);
+                        const loop = setInterval(() => {
+                            if (winURL && winURL.closed) {
+                                clearInterval(loop);
+                                this.onClickBnt();
+                            }
+                        }, 500);
+                    }
                 }
             },
             error: (xhr, status, err) => {
