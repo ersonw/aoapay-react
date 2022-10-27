@@ -1,12 +1,13 @@
 .order{
     margin: 40px auto;
     padding: 50px;
-    width: 1000px;
-    height: 818px;
+     /*width: 1000px;*/
     background: #fff;
     box-shadow: 0 0 32px rgb(0 0 0 / 5%);
     border: 1px solid transparent;
     opacity: 1;
+    margin-left: 15vw;
+    margin-right: 15vw;
 }
 .title{
     display: flex;
@@ -45,20 +46,20 @@
     text-align: center;
 }
 .record table{
-    width: 900px;
+    width: 100%;
     margin: 50px auto;
     border-collapse: collapse;
 }
-.record table>tr{
+.record table>tbody>tr{
     background: #f2f2f2;
 }
 
-.record table>tr>th{
+.record table>tbody>tr>th{
     height: 60px;
 }
-.record table>tr>td{
+.record table>tbody>tr>td{
     height: 50px;
 }
-.record table>tr:nth-child(2n){
+.record table>tbody>tr:nth-child(n+2){
     background: #fff;
 }

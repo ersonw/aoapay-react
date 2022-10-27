@@ -1,18 +1,21 @@
 import React from "react";
 import order from "../css/order.module.css"
 import app from "../css/app.module.css"
+import orderh5 from "../css/orderh5.module.css";
 // import { AiFillAlipayCircle } from "react-icons/ai";
 import withRouter from "../withRouter";
 import Paginated from "../components/Paginated";
 import $ from "jquery";
 import error from "../images/error.png";
 import close from "../images/close.png";
+
 class Order extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             showAjax: false,
             ajaxMessage: '',
+            styles: app.App,
             currentPage: 1,
             pageCount: 0,
             list: [],
@@ -54,61 +57,79 @@ class Order extends React.Component {
     }
     componentDidMount() {
         this.loadFromServer();
+        if (
+            navigator.userAgent.match(/Android/i) ||
+            navigator.userAgent.match(/webOS/i) ||
+            navigator.userAgent.match(/iPhone/i) ||
+            navigator.userAgent.match(/iPad/i) ||
+            navigator.userAgent.match(/iPod/i) ||
+            navigator.userAgent.match(/BlackBerry/i) ||
+            navigator.userAgent.match(/Windows Phone/i)
+        ) {
+            this.setState({ styles:  orderh5 });
+        } else {
+            this.setState({ styles:  order });
+        }
+    }
+    componentWillUnmount() {
+        // window.removeEventListener("resize", this.resizeListener);
     }
     onClickBnt(e) {
         this.props.router.navigate('/');
     }
-    onChange({selected}){
-        console.log(selected);
-        this.setState({
+    async onChange({selected}){
+        // console.log(selected+1);
+        await this.setState({
             currentPage: selected+1,
-        });
-        this.loadFromServer();
+        })
+        await this.loadFromServer();
     }
     onAjaxClose(){
         this.setState({showAjax: false});
     }
     render() {
         return (
-            <div className={order.order}>
-                <div className={order.title}>
+            <div className={this.state.styles.order}>
+                <div className={this.state.styles.title}>
                     <div>
                         <div>存款</div>
                         <div>存款金额会存入中心钱包</div>
                     </div>
                     <div onClick={this.onClickBnt.bind(this)}> 返回</div>
                 </div>
-                <div className={order.record}>
+                <div className={this.state.styles.record}>
                     <table>
+                        <tbody>
                         <tr>
                             <th>订单编号</th>
                             <th>存款金额</th>
-                            <th>用户昵称</th>
+                            <th>会员账号</th>
                             <th>实际存款</th>
                             <th>订单状态</th>
                         </tr>
                         {this.state.list.length > 0 &&
                             this.state.list.map((item, index)=> {
-                              return (
-                                  <tr key={index}>
-                                      <td>{item.id}</td>
-                                      <td>{item.amount}</td>
-                                      <td>{item.nickname}</td>
-                                      <td>{item.totalFee}</td>
-                                      <td style={item.status?{color: "green"}:{color: "gray"}}>{item.status?'已成功':'等待确认'}</td>
-                                  </tr>
-                              );
+                                return (
+                                    <tr key={index}>
+                                        <td>{item.id}</td>
+                                        <td>{item.amount}</td>
+                                        <td>{item.username}</td>
+                                        <td>{item.totalFee}</td>
+                                        <td style={item.status?{color: "green"}:{color: "gray"}}>{item.status?'已成功':'等待确认'}</td>
+                                    </tr>
+                                );
                             })
                         }
+                        </tbody>
                     </table>
                     {this.state.pageCount > 0 && (
                         <div>
-                            <Paginated currentPage={this.state.currentPage} pageCount={this.state.pageCount} onPageChange={this.onChange.bind(this)} />
+                            <Paginated currentPage={this.state.currentPage-1} pageCount={this.state.pageCount} onPageChange={this.onChange.bind(this)} />
                         </div>
                     )}
                 </div>
-                <div className={this.state.showAjax?app.mask:app.maskHide}>
-                    <div className={this.state.showAjax?app.popup:app.popupHide}>
+                <div className={this.state.showAjax?this.state.styles.mask:this.state.styles.maskHide}>
+                    <div className={this.state.showAjax?this.state.styles.popup:this.state.styles.popupHide}>
                         <div className="title"> 温馨提示</div>
                         <div className="main">
                             <img src={error} alt=""/>

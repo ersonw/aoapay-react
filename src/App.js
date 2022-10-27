@@ -1,17 +1,18 @@
 import React from "react";
 import withRouter from "./withRouter";
 import $ from 'jquery';
-import app from "./css/app.module.css"
-import './App.css'
+import app from "./css/app.module.css";
+import apph5 from "./css/apph5.module.css";
+import './App.css';
 
-import alipayIcon from "./images/alipay.png"
-import wxpayIcon from "./images/wxpay.png"
-import chooseIcon from "./images/choose.png"
-import qqpayIcon from "./images/qqpay.png"
-import taobaoIcon from "./images/taobao.png"
-import unionpay from "./images/UnionPay.png"
-import error from "./images/error.png"
-import close from "./images/close.png"
+import alipayIcon from "./images/alipay.png";
+import wxpayIcon from "./images/wxpay.png";
+import chooseIcon from "./images/choose.png";
+import qqpayIcon from "./images/qqpay.png";
+import taobaoIcon from "./images/taobao.png";
+import unionpay from "./images/UnionPay.png";
+import error from "./images/error.png";
+import close from "./images/close.png";
 
 class App extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class App extends React.Component {
             showMessage: '公司银行卡不定期更换，每次充值请根据提交订单，生成的银行卡转账，切勿直接转账至之前转入的银行卡，并且不要使用微信进行转账存款，否则无法到账，概不负责！如会员账号填写错误导致充值到其他账号，不予退还，请谨慎核对！',
             showAjax: false,
             ajaxMessage: '',
+            styles: app.App,
             chooseIndex: 0,
             name: '',
             username: '',
@@ -34,6 +36,22 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.loadFromServer();
+        if (
+            navigator.userAgent.match(/Android/i) ||
+            navigator.userAgent.match(/webOS/i) ||
+            navigator.userAgent.match(/iPhone/i) ||
+            navigator.userAgent.match(/iPad/i) ||
+            navigator.userAgent.match(/iPod/i) ||
+            navigator.userAgent.match(/BlackBerry/i) ||
+            navigator.userAgent.match(/Windows Phone/i)
+        ) {
+            this.setState({ styles:  apph5 });
+        } else {
+            this.setState({ styles:  app });
+        }
+    }
+    componentWillUnmount() {
+        // window.removeEventListener("resize", this.resizeListener);
     }
     submitServer(){
         $.ajax({
@@ -209,30 +227,30 @@ class App extends React.Component {
     }
     render() {
         return (
-            <div className={app.App}>
-                <div className={app.title}>
+            <div className={this.state.styles.App}>
+                <div className={this.state.styles.title}>
                     <div>
                         <div>存款</div>
                         <div>存款金额会存入中心钱包</div>
                     </div>
                     <div onClick={this.onClickBnt.bind(this)}> 我的订单</div>
                 </div>
-                <div className={app.pay}>
-                    <div className={app.payMtd}>
-                        <div className={app.payMtdTitle}> 付款方式</div>
+                <div className={this.state.styles.pay}>
+                    <div className={this.state.styles.payMtd}>
+                        <div className={this.state.styles.payMtdTitle}> 付款方式</div>
                         <div>
                             {this.state.payMethod.map((item, index) => {
                                 return (
                                     <div
                                         key={index}
-                                        className={this.state.chooseIndex === index ? app.payMtdActive : ""}
+                                        className={this.state.chooseIndex === index ? this.state.styles.payMtdActive : ""}
                                         onClick={(e) => this.onClickMethod(index)}
                                     >
                                         <div>
                                             <img src={this.getMethod(item.type)} alt=""/>
                                         </div>
                                         <div>{item.title}</div>
-                                        <div className={app.payMtdChoose}>
+                                        <div className={this.state.styles.payMtdChoose}>
                                             <img src={chooseIcon} alt=""/>
                                         </div>
                                     </div>
@@ -240,8 +258,8 @@ class App extends React.Component {
                             })}
                         </div>
                     </div>
-                    <div className={app.main}>
-                        <div className={app.default}>
+                    <div className={this.state.styles.main}>
+                        <div className={this.state.styles.default}>
                             <div>
                                 <div>存款人姓名</div>
                                 <div>
@@ -270,7 +288,7 @@ class App extends React.Component {
                             </div>
                             <div>
                                 <div>存款金额</div>
-                                <div className={app.numList}>
+                                <div className={this.state.styles.numList}>
                                     <div>
                                         {!this.state.amountList.isEmpty &&
                                             this.state.amountList.length > this.state.amountListIndex &&
@@ -309,17 +327,17 @@ class App extends React.Component {
                                 </div>
                             </div>
                             <div
-                                className={`${app.bnt} ${(this.state.name.length === 0 ||
+                                className={`${this.state.styles.bnt} ${(this.state.name.length === 0 ||
                                 this.state.username.length === 0 ||
-                                this.state.amount === 0 ? "" : app.bntActive)}`}
+                                this.state.amount === 0 ? "" : this.state.styles.bntActive)}`}
                                 onClick={this.onSubmit.bind(this)}
                             > 立即存款
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={this.state.showMask?app.mask:app.maskHide}>
-                    <div className={this.state.showMask?app.popup:app.popupHide}>
+                <div className={this.state.showMask?this.state.styles.mask:this.state.styles.maskHide}>
+                    <div className={this.state.showMask?this.state.styles.popup:this.state.styles.popupHide}>
                         <div className="title"> 温馨提示</div>
                         <div className="main">
                             <img src={error} alt=""/>
@@ -336,8 +354,8 @@ class App extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className={this.state.showAjax?app.mask:app.maskHide}>
-                    <div className={this.state.showAjax?app.popup:app.popupHide}>
+                <div className={this.state.showAjax?this.state.styles.mask:this.state.styles.maskHide}>
+                    <div className={this.state.showAjax?this.state.styles.popup:this.state.styles.popupHide}>
                         <div className="title"> 温馨提示</div>
                         <div className="main">
                             <img src={error} alt=""/>
