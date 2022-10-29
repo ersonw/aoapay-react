@@ -8,7 +8,7 @@ import Paginated from "../components/Paginated";
 import $ from "jquery";
 import error from "../images/error.png";
 import close from "../images/close.png";
-
+import aoaLogo from "../images/aoa-logo.png";
 class Order extends React.Component {
     constructor(props) {
         super(props);
@@ -90,6 +90,9 @@ class Order extends React.Component {
     render() {
         return (
             <div className={this.state.styles.order}>
+                <div className={this.state.styles.logo}>
+                    <img src={aoaLogo} alt="" />
+                </div>
                 <div className={this.state.styles.title}>
                     <div>
                         <div>存款</div>

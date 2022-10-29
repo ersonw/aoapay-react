@@ -13,6 +13,7 @@ import taobaoIcon from "./images/taobao.png";
 import unionpay from "./images/UnionPay.png";
 import error from "./images/error.png";
 import close from "./images/close.png";
+import aoaLogo from "./images/aoa-logo.png";
 
 class App extends React.Component {
     constructor(props) {
@@ -233,8 +234,12 @@ class App extends React.Component {
     render() {
         return (
             <div className={this.state.styles.App}>
+                <div className={this.state.styles.logo}>
+                    <img src={aoaLogo} alt="" />
+                </div>
                 <div className={this.state.styles.title}>
                     <div>
+                        {/*<img src={aoaLogo} style={{height: "96px"}} alt="" />*/}
                         <div>存款</div>
                         <div>存款金额会存入中心钱包</div>
                     </div>
