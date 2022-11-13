@@ -11,6 +11,10 @@ import chooseIcon from "./images/choose.png";
 import qqpayIcon from "./images/qqpay.png";
 import taobaoIcon from "./images/taobao.png";
 import unionpay from "./images/UnionPay.png";
+import jingdong from "./images/jingdong.png";
+import tianmiao from "./images/tianmao.png";
+import yunshanfu from "./images/yunshanfu.png"
+
 import error from "./images/error.png";
 import close from "./images/close.png";
 import aoaLogo from "./images/aoa-logo.png";
@@ -177,8 +181,14 @@ class App extends React.Component {
                 return qqpayIcon;
             case 'taobao':
                 return taobaoIcon;
-            case 'unionpay':
+            case 'union':
                 return unionpay;
+            case 'tianmao':
+                return tianmiao;
+            case 'yunshanfu':
+                return yunshanfu;
+            case 'jingdong':
+                return jingdong;
             default:
                 return;
         }

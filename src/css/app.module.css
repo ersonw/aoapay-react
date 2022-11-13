@@ -382,10 +382,10 @@
     display: block;
 }
 .logo{
-    height: 108px;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    display: flex;
+    height: 108px;
+    justify-content: space-between;
 }
 .logo>img{
     height: 100%;
